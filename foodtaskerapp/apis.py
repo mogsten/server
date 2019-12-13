@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 import json
+import logging
 from django.views.decorators.csrf import csrf_exempt
 
 from oauth2_provider.models import AccessToken
@@ -7,6 +8,7 @@ from django.utils import timezone
 from foodtaskerapp.models import Restaurant, Meal, Order, OrderDetails, Driver, Modifier
 from foodtaskerapp.serializers import RestaurantSerializer, MealSerializer, OrderSerializer
 from collections import defaultdict
+
 
 import stripe
 from foodtasker.settings import STRIPE_API_KEY
@@ -73,6 +75,7 @@ def customer_add_order(request):
 
         order_total = 0
         shipping_total = 5
+        order_final_payment_price = 0
         for meal in order_details:
             order_total += Meal.objects.get(id = meal["meal_id"]).price * meal["quantity"]
             order_converted_total = int(order_total) # Convert Price to Int and Send to Stripe
@@ -80,13 +83,17 @@ def customer_add_order(request):
             if order_converted_total < 50:
                 shipping_total = 5
                 order_final_payment_price = int(order_converted_total + shipping_total)
-                print(order_final_payment_price);
+                logging.error(order_final_payment_price)
+                else:
+                    shipping_total = 0
+                    order_final_payment_price = int(order_converted_total + shipping_total)
+                    logging.error(order_final_payment_price)
 
         if len(order_details) > 0:
 
             # Step 1: Create a charge: This will Charge Customers Card
             charge = stripe.Charge.create(
-                amount = order_converted_total * 100, # Amount in Cents
+                amount = order_final_payment_price * 100, # Amount in Cents
                 currency = "aud",
                 source = stripe_token,
                 description = "B!te Order"
