@@ -95,7 +95,7 @@ def customer_add_order(request):
         if len(order_details) > 0:
             
             #Additional Step before ordering - Convert Order Final Price to Int
-            order_finalPrice = float(order_final_payment_price)
+            order_finalPrice = int(order_final_payment_price)
             logging.warning('ORDER FINAL PRICE' + order_finalPrice)
 
             # Step 1: Create a charge: This will Charge Customers Card
