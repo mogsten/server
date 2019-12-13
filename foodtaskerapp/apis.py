@@ -84,7 +84,13 @@ def customer_add_order(request):
                 shipping_total = 5
                 order_final_payment_price = int(order_converted_total + shipping_total)
                 logging.error(order_final_payment_price)
-            if order_converted_total => 50:
+                
+            if order_converted_total = 50:
+                shipping_total = 0
+                order_final_payment_price = int(order_converted_total + shipping_total)
+                logging.error(order_final_payment_price)
+                
+                if order_converted_total > 50:
                 shipping_total = 0
                 order_final_payment_price = int(order_converted_total + shipping_total)
                 logging.error(order_final_payment_price)
