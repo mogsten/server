@@ -93,14 +93,12 @@ def customer_add_order(request):
                 logging.error(order_final_payment_price)
                 logging.warning(shipping_total)
                 
-            order_finalPrice = int(order_final_payment_price)
-            logging.warning('ORDER FINAL PRICE %s', order_finalPrice)
 
         if len(order_details) > 0:
 
             # Step 1: Create a charge: This will Charge Customers Card
             charge = stripe.Charge.create(
-                amount = order_finalPrice * 100, # Amount in Cents
+                amount = order_final_payment_price * 100, # Amount in Cents
                 currency = "aud",
                 source = stripe_token,
                 description = "B!te Order"
@@ -111,7 +109,7 @@ def customer_add_order(request):
                 order = Order.objects.create(
                 customer = customer,
                 restaurant_id = request.POST["restaurant_id"],
-                total = order_finalPrice,
+                total = order_final_payment_price,
                 status = Order.PREPARING,
                 address = request.POST["address"]
                 )
