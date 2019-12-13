@@ -1,26 +1,3 @@
-Skip to content
-Search or jump to…
-
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@mogsten 
-1
-00mogsten/server
- Code Issues 0 Pull requests 0 Actions Projects 0 Wiki Security Insights Settings
-server/foodtaskerapp/apis.py
- Froth Apps First
-76cb6ff 5 days ago
-Executable File  352 lines (262 sloc)  11.9 KB
-  
-Code navigation is available!
-Navigate your code with ease. Click on function and method calls to jump to their definitions or references in the same repository. Learn more
-
- Code navigation is available for this repository but data for this commit does not exist.
-
-Learn more or give us feedback
 from django.http import JsonResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
@@ -378,15 +355,3 @@ def get_oldest_order(request):
         "status": "success",
         "message": "No orders are ready in your vicinity"
     })
-© 2019 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Help
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About
