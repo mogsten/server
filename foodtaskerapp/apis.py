@@ -73,9 +73,9 @@ def customer_add_order(request):
         # Get Order Details
         order_details = json.loads(request.POST["order_details"])
 
-        order_total = 0
-        shipping_total = 5
-        order_final_payment_price = 0
+        order_total = 0.00
+        shipping_total = 5.00
+        order_final_payment_price = 0.00
         for meal in order_details:
             order_total += Meal.objects.get(id = meal["meal_id"]).price * meal["quantity"]
             order_converted_total = int(order_total) # Convert Price to Int and Send to Stripe
@@ -106,7 +106,7 @@ def customer_add_order(request):
                 order = Order.objects.create(
                 customer = customer,
                 restaurant_id = request.POST["restaurant_id"],
-                total = order_total,
+                total = order_final_payment_price,
                 status = Order.PREPARING,
                 address = request.POST["address"]
                 )
