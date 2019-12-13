@@ -109,6 +109,7 @@ def customer_add_order(request):
                 total = order_final_payment_price,
                 status = Order.PREPARING,
                 address = request.POST["address"]
+                extra_notes = request.POST["extra_notes"]
                 )
 
                 #step two - Create Order Details
