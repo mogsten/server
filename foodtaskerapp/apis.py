@@ -76,6 +76,7 @@ def customer_add_order(request):
         order_total = 0.00
         shipping_total = 5.00
         order_final_payment_price = 0.00
+        order_finalPrice = 0.00
         for meal in order_details:
             order_total += Meal.objects.get(id = meal["meal_id"]).price * meal["quantity"]
             order_converted_total = int(order_total) # Convert Price to Int and Send to Stripe
@@ -91,12 +92,11 @@ def customer_add_order(request):
                 order_final_payment_price = int(order_converted_total + shipping_total)
                 logging.error(order_final_payment_price)
                 logging.warning(shipping_total)
-
-        if len(order_details) > 0:
-            
-            #Additional Step before ordering - Convert Order Final Price to Int
+                
             order_finalPrice = int(order_final_payment_price)
             logging.warning('ORDER FINAL PRICE %s', order_finalPrice)
+
+        if len(order_details) > 0:
 
             # Step 1: Create a charge: This will Charge Customers Card
             charge = stripe.Charge.create(
